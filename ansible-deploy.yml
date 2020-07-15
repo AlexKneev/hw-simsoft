@@ -1,0 +1,30 @@
+---
+- hosts: flask
+  tasks:
+    - name: Install python3-pip package
+      apt:
+        pkg: python3-pip
+        state: present
+        update_cache: true
+
+    - name: create directory for Flask application
+      file:
+        path=/app
+        mode=0700
+        owner=root
+        group=root
+        state=directory
+
+    - name: deploy flask project from github
+      git: 
+        repo: 'https://github.com/anfederico/Flaskex'
+        dest: /app
+        update: yes
+
+    - name: install Flask app requirements
+      command: pip3 install -r /app/requirements.txt
+
+    - name: Run Flask App
+      command: screen -d -m python3 /app/app.py
+      async: True
+      poll: 0

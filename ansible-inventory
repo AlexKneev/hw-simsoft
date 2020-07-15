@@ -1,0 +1,6 @@
+[flask]
+192.168.33.11
+
+[flask:vars]
+ansible_ssh_user=root
+
